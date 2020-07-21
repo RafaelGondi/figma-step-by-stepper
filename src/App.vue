@@ -9,6 +9,16 @@
         value="3"
       />
     </div>
+
+    <div class="input-group">
+      <label>Width / heigth (in px):</label>
+      <input
+        type="number"
+        v-model.number="size"
+        value="28"
+      />
+    </div>
+
     <button @click="cancel">Cancel</button>
     <button id="create" @click="create">Create</button>
   </div>
@@ -20,13 +30,15 @@ export default {
   data() {
     return {
       number_of_steps: 3,
+      size: 28,
     };
   },
   methods: {
     create: function() {
       const number_of_steps = parseInt(this.number_of_steps, 10);
+       const size = parseInt(this.size, 10);
 
-      parent.postMessage({ pluginMessage: { type: 'create-steps', number_of_steps, } }, '*')
+      parent.postMessage({ pluginMessage: { type: 'create-steps', number_of_steps, size} }, '*')
     },
     cancel: function() {
       parent.postMessage({ pluginMessage: { type: "cancel" } }, "*");

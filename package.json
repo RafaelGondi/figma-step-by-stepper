@@ -1,6 +1,6 @@
 {
     "name": "step-by-stepper",
-    "version": "0.2.0",
+    "version": "0.3.0",
     "description": "Figma plugin to create stepper components",
     "scripts": {
         "build": "webpack --mode=production",
