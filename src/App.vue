@@ -1,54 +1,81 @@
 <template>
 	<div>
-		<h2>Stepper Creator</h2>
-		<div class="input-group">
-			<label>Number of steps: </label>
-			<input
-				type="number"
-				v-model.number="number_of_steps"
-				value="3"
-			/>
+		<div class="content">
+			<div class="input-group">
+				<label>Number of steps: </label>
+				<input
+					type="number"
+					v-model.number="number_of_steps"
+					value="3"
+				/>
+			</div>
+			<span
+				class="validation-message"
+				v-if="number_of_steps <= 0"
+			>
+				The number of steps must be greater than 0
+			</span>
+
+			<div class="input-group">
+				<label>Width / heigth (in px):</label>
+				<input
+					type="number"
+					v-model.number="size"
+					value="28"
+				/>
+			</div>
+			<span
+				class="validation-message"
+				v-if="size <= 0"
+			>
+				The width and heigth must be greater than 0px
+			</span>
+
+			<div class="input-group">
+				<label>Spacing (in px):</label>
+				<input
+					type="number"
+					v-model.number="spacing"
+					value="48"
+				/>
+			</div>
+			<span
+				class="validation-message"
+				v-if="spacing < 0"
+			>
+				The Spacing must be greater than or equal to 0px
+			</span>
+
+			<div class="input-group">
+				<label>Active step (Starts by 1):</label>
+				<input
+					type="number"
+					v-model.number="active_step"
+					value="1"
+				/>
+			</div>
+			<span
+				class="validation-message"
+				v-if="active_step > number_of_steps"
+			>
+				{{ `The active step must be greater than 1 and leasser than ${number_of_steps}` }}
+			</span>
+
+			<div class="input-group">
+				<label>Direction</label>
+				<br>
+				<input type="radio" id="horizontal" value="horizontal" v-model="direction">
+				<label style="font-size: 1rem" for="horizontal">Horizontal</label>
+				<br>
+				<input type="radio" id="vertical" value="vertical" v-model="direction">
+				<label style="font-size: 1rem" for="vertical">Vertical</label>
+			</div>
 		</div>
 
-		<div class="input-group">
-			<label>Width / heigth (in px):</label>
-			<input
-				type="number"
-				v-model.number="size"
-				value="28"
-			/>
+		<div class="footer">
+			<button @click="cancel">Cancel</button>
+			<button id="create" @click="create">Create</button>
 		</div>
-
-		<div class="input-group">
-			<label>Spacing</label>
-			<input
-				type="number"
-				v-model.number="spacing"
-				value="48"
-			/>
-		</div>
-
-		<div class="input-group">
-			<label>Active step (Starts by 1)</label>
-			<input
-				type="number"
-				v-model.number="active_step"
-				value="1"
-			/>
-		</div>
-
-		<div class="input-group">
-			<label>Direction</label>
-			<br>
-			<input type="radio" id="horizontal" value="horizontal" v-model="direction">
-			<label style="font-size: 1rem" for="horizontal">Horizontal</label>
-			<br>
-			<input type="radio" id="vertical" value="vertical" v-model="direction">
-			<label style="font-size: 1rem" for="vertical">Vertical</label>
-		</div>
-
-		<button @click="cancel">Cancel</button>
-		<button id="create" @click="create">Create</button>
 	</div>
 </template>
 
@@ -72,7 +99,15 @@ export default {
 			const active_step = parseInt(this.active_step, 10);
 			const direction = this.direction;
 
-			parent.postMessage({ pluginMessage: { type: 'create-steps', number_of_steps, size, spacing, active_step, direction } }, '*')
+			if (
+				number_of_steps > 0
+				&& size > 0
+				&& spacing >= 0
+				&& active_step < number_of_steps
+			) {
+				parent.postMessage({ pluginMessage: { type: 'create-steps', number_of_steps, size, spacing, active_step, direction } }, '*')
+			}
+
 		},
 		cancel: function() {
 			parent.postMessage({ pluginMessage: { type: "cancel" } }, "*");
@@ -91,7 +126,7 @@ export default {
 	margin-top: 60px;
 }
 
-body {
+.content {
 	font: 12px sans-serif;
 	margin: 20px;
 }
@@ -128,6 +163,7 @@ input[type=number] {
 	border-radius: .25rem;
 	transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 	outline-color: transparent !important;
+	margin-top: 4px;
 }
 
 input[type=number]:hover {
@@ -151,5 +187,15 @@ input[type=number]:focus {
 
 .input-group {
 	margin: 16px 0px;
+}
+
+.validation-message {
+	color: #ff4756;
+}
+
+.footer {
+	margin-top: 24px;
+	display: flex;
+	justify-content: flex-end;
 }
 </style>
