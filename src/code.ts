@@ -10,8 +10,16 @@ figma.ui.onmessage = data => {
 		for (let i = 0; i < data.number_of_steps; i++) {
 			const circle = figma.createEllipse();
 			circle.resize(data.size, data.size);
-			circle.x = (i * data.size) + (data.spacing * i);;
-			circle.fills = [{ type: 'SOLID', color: { r: 0.41569, g: 0.45882, b: 0.50196 } }];
+			
+			console.log('data.active_step: ', data.active_step);
+
+			if (i === data.active_step - 1) {
+				circle.fills = [{ type: 'SOLID', color: { r: 0.11373, g: 0.79216, b: 0.58039 } }];
+			} else {
+				circle.fills = [{ type: 'SOLID', color: { r: 0.41569, g: 0.45882, b: 0.50196 } }];
+			}
+
+			circle.x = (i * data.size) + (data.spacing * i);
 
 			figma.currentPage.appendChild(circle);
 			nodes.push(circle);

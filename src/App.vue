@@ -28,6 +28,15 @@
 			/>
 		</div>
 
+		<div class="input-group">
+			<label>Active step (Starts by 1)</label>
+			<input
+				type="number"
+				v-model.number="active_step"
+				value="1"
+			/>
+		</div>
+
 		<button @click="cancel">Cancel</button>
 		<button id="create" @click="create">Create</button>
 	</div>
@@ -41,6 +50,7 @@ export default {
 			number_of_steps: 3,
 			size: 28,
 			spacing: 48,
+			active_step: 1,
 		};
 	},
 	methods: {
@@ -48,8 +58,9 @@ export default {
 			const number_of_steps = parseInt(this.number_of_steps, 10);
 			const size = parseInt(this.size, 10);
 			const spacing = parseInt(this.spacing, 10);
+			const active_step = parseInt(this.active_step, 10);
 
-			parent.postMessage({ pluginMessage: { type: 'create-steps', number_of_steps, size, spacing} }, '*')
+			parent.postMessage({ pluginMessage: { type: 'create-steps', number_of_steps, size, spacing, active_step } }, '*')
 		},
 		cancel: function() {
 			parent.postMessage({ pluginMessage: { type: "cancel" } }, "*");
