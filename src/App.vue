@@ -58,7 +58,7 @@
 				class="validation-message"
 				v-if="active_step > number_of_steps"
 			>
-				{{ `The active step must be greater than 1 and leasser than ${number_of_steps}` }}
+				{{ `The active step must be greater than 1 and leasser than or equal to ${number_of_steps}` }}
 			</span>
 
 			<div class="input-group">
@@ -81,7 +81,6 @@
 
 <script>
 export default {
-	name: "App",
 	data() {
 		return {
 			number_of_steps: 3,
@@ -91,6 +90,7 @@ export default {
 			direction: 'horizontal',
 		};
 	},
+
 	methods: {
 		create: function() {
 			const number_of_steps = parseInt(this.number_of_steps, 10);
@@ -103,16 +103,18 @@ export default {
 				number_of_steps > 0
 				&& size > 0
 				&& spacing >= 0
-				&& active_step < number_of_steps
+				&& active_step <= number_of_steps
 			) {
-				parent.postMessage({ pluginMessage: { type: 'create-steps', number_of_steps, size, spacing, active_step, direction } }, '*')
+				parent.postMessage({ pluginMessage: { number_of_steps, size, spacing, active_step, direction } }, '*')
 			}
 
 		},
+
 		cancel: function() {
 			parent.postMessage({ pluginMessage: { type: "cancel" } }, "*");
 		}
 	},
+
 	created() {},
 };
 </script>
