@@ -37,6 +37,16 @@
 			/>
 		</div>
 
+		<div class="input-group">
+			<label>Direction</label>
+			<br>
+			<input type="radio" id="horizontal" value="horizontal" v-model="direction">
+			<label style="font-size: 1rem" for="horizontal">Horizontal</label>
+			<br>
+			<input type="radio" id="vertical" value="vertical" v-model="direction">
+			<label style="font-size: 1rem" for="vertical">Vertical</label>
+		</div>
+
 		<button @click="cancel">Cancel</button>
 		<button id="create" @click="create">Create</button>
 	</div>
@@ -51,6 +61,7 @@ export default {
 			size: 28,
 			spacing: 48,
 			active_step: 1,
+			direction: 'horizontal',
 		};
 	},
 	methods: {
@@ -59,8 +70,9 @@ export default {
 			const size = parseInt(this.size, 10);
 			const spacing = parseInt(this.spacing, 10);
 			const active_step = parseInt(this.active_step, 10);
+			const direction = this.direction;
 
-			parent.postMessage({ pluginMessage: { type: 'create-steps', number_of_steps, size, spacing, active_step } }, '*')
+			parent.postMessage({ pluginMessage: { type: 'create-steps', number_of_steps, size, spacing, active_step, direction } }, '*')
 		},
 		cancel: function() {
 			parent.postMessage({ pluginMessage: { type: "cancel" } }, "*");
