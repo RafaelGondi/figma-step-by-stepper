@@ -10,7 +10,7 @@ figma.ui.onmessage = data => {
 		for (let i = 0; i < data.number_of_steps; i++) {
 			const circle = figma.createEllipse();
 			circle.resize(data.size, data.size);
-			circle.x = (i * data.size) + (48 * i);;
+			circle.x = (i * data.size) + (data.spacing * i);;
 			circle.fills = [{ type: 'SOLID', color: { r: 0.41569, g: 0.45882, b: 0.50196 } }];
 
 			figma.currentPage.appendChild(circle);
@@ -22,7 +22,7 @@ figma.ui.onmessage = data => {
 					text.characters = '' + (i + 1);
 
 					text.x = ((data.size - text.width) / 2)
-						+ ((48 * i)
+						+ ((data.spacing * i)
 							+ (data.size * i));
 
 					text.y = ((data.size - text.height) / 2);
@@ -38,11 +38,11 @@ figma.ui.onmessage = data => {
 			if (i !== data.number_of_steps - 1) {
 				const line = figma.createLine();
 
-				line.x = ((i + 1) * data.size) + (48 * i);
+				line.x = ((i + 1) * data.size) + (data.spacing * i);
 				line.y = data.size / 2;
 
 				line.strokes = [{ type: 'SOLID', color: { r: 0.80784, g: 0.83137, b: 0.85490 } }];
-				line.resize(48, 0);
+				line.resize(data.spacing, 0);
 
 				figma.currentPage.appendChild(line);
 				nodes.push(line);
