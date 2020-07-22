@@ -1,7 +1,7 @@
 {
   "name": "Step by stepper",
-  "id": "758460130791334003",
-  "api": "1.0.0",
+  "id": "867577812066716451",
+  "api": "1.0.3",
   "main": "build/main.js",
   "ui": "build/ui.html"
 }
