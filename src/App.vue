@@ -47,7 +47,7 @@
 			</span>
 
 			<div class="input-group">
-				<label>Active step (Starts by 1):</label>
+				<label>Active step (Starts at 1):</label>
 				<input
 					type="number"
 					v-model.number="active_step"
